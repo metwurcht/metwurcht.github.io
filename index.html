@@ -1,11 +1,196 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Comparaison codec</title>
+    <title>Comparateur Deepsea</title>
+    <meta
+      name="description"
+      content="Comparaison visuelle d'images Deepsea deux a deux par codec, debit et index."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script type="module" src="assets/js/app.js"></script>
   </head>
   <body>
-    <h1>Comparaison codecs</h1>
+    <div class="page-background" aria-hidden="true"></div>
+
+    <main class="app-shell">
+      <header class="hero-block">
+        <p class="kicker">Comparaison image par image</p>
+        <h1>Comparateur Deepsea</h1>
+        <p class="lead">
+          Selectionne deux images, ajuste codec, debit et index, puis compare en vue
+          superposee ou en split.
+        </p>
+      </header>
+
+      <section class="card toolbar" aria-label="Options globales">
+        <div class="toolbar-left">
+          <div class="button-group" role="group" aria-label="Mode de vue">
+            <button class="mode-button is-active" data-view-mode="overlay" type="button">
+              Superpose
+            </button>
+            <button class="mode-button" data-view-mode="split" type="button">
+              Split
+            </button>
+          </div>
+          <label class="toggle-field" for="lock-index">
+            <input id="lock-index" type="checkbox" checked />
+            <span>Verrouiller l'index A/B</span>
+          </label>
+        </div>
+
+        <div class="toolbar-right">
+          <button id="swap-sides" class="button-secondary" type="button">
+            Inverser A et B
+          </button>
+        </div>
+
+        <p id="status-message" class="status-message" aria-live="polite"></p>
+      </section>
+
+      <section class="controls-grid" aria-label="Parametres de comparaison">
+        <article class="card panel-controls" data-panel="left">
+          <div class="panel-header">
+            <h2>Image A</h2>
+            <button class="button-ghost" data-action="set-original" type="button">
+              Mettre ORIGINAL
+            </button>
+          </div>
+
+          <div class="field-grid">
+            <label for="left-codec">Codec</label>
+            <select id="left-codec"></select>
+
+            <label for="left-bitrate">Debit</label>
+            <select id="left-bitrate"></select>
+
+            <label for="left-index">Image</label>
+            <select id="left-index"></select>
+          </div>
+        </article>
+
+        <article class="card panel-controls" data-panel="right">
+          <div class="panel-header">
+            <h2>Image B</h2>
+            <button class="button-ghost" data-action="set-original" type="button">
+              Mettre ORIGINAL
+            </button>
+          </div>
+
+          <div class="field-grid">
+            <label for="right-codec">Codec</label>
+            <select id="right-codec"></select>
+
+            <label for="right-bitrate">Debit</label>
+            <select id="right-bitrate"></select>
+
+            <label for="right-index">Image</label>
+            <select id="right-index"></select>
+          </div>
+        </article>
+      </section>
+
+      <section class="viewer-stack" aria-label="Zone de visualisation">
+        <div id="overlay-view" class="card comparison-view overlay-view">
+          <div
+            id="overlay-stage"
+            class="overlay-stage"
+            role="button"
+            tabindex="0"
+            aria-label="Basculer la visibilite de l'image du dessus"
+            aria-pressed="false"
+          >
+            <span
+              id="overlay-corner-badge"
+              class="corner-badge corner-badge-left is-image-b"
+              aria-live="polite"
+            >
+              Image B visible
+            </span>
+            <img
+              id="overlay-base-image"
+              class="layer-base"
+              alt="Image de base"
+              draggable="false"
+              decoding="async"
+              loading="lazy"
+            />
+            <img
+              id="overlay-top-image"
+              class="layer-top"
+              alt="Image superposee"
+              draggable="false"
+              decoding="async"
+              loading="lazy"
+            />
+          </div>
+
+          <p class="interaction-hint">
+            Clique sur l'image pour masquer ou afficher l'image du dessus.
+          </p>
+
+          <p id="overlay-visible-state" class="view-state" aria-live="polite"></p>
+
+          <p class="legend-row">
+            <span id="overlay-base-label"></span>
+            <span id="overlay-top-label"></span>
+          </p>
+
+          <p class="file-row">
+            <span id="overlay-base-file" class="filename"></span>
+            <span id="overlay-top-file" class="filename"></span>
+          </p>
+        </div>
+
+        <div id="split-view" class="card comparison-view split-view is-hidden">
+          <div id="split-stage" class="split-stage">
+            <span id="split-left-badge" class="corner-badge corner-badge-left is-image-b">
+              Image B
+            </span>
+            <span id="split-right-badge" class="corner-badge corner-badge-right is-image-a">
+              Image A
+            </span>
+            <img
+              id="split-base-image"
+              class="layer-base"
+              alt="Image de base"
+              draggable="false"
+              decoding="async"
+              loading="lazy"
+            />
+            <img
+              id="split-overlay-image"
+              class="split-overlay-image"
+              alt="Image superposee"
+              draggable="false"
+              decoding="async"
+              loading="lazy"
+            />
+            <div id="split-divider" class="split-divider"></div>
+          </div>
+
+          <p class="interaction-hint">Glisse directement sur l'image pour deplacer la separation.</p>
+
+          <p id="split-visible-state" class="view-state"></p>
+
+          <p class="legend-row">
+            <span id="split-left-label"></span>
+            <span id="split-right-label"></span>
+          </p>
+
+          <p class="file-row">
+            <span id="split-left-file" class="filename"></span>
+            <span id="split-right-file" class="filename"></span>
+          </p>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
