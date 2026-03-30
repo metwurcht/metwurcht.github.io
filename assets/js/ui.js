@@ -10,14 +10,16 @@ export function getDom() {
         codec: document.getElementById("left-codec"),
         bitrate: document.getElementById("left-bitrate"),
         index: document.getElementById("left-index"),
-        setOriginalButton: document.querySelector('[data-panel="left"] [data-action="set-original"]'),
+        setOriginalButton: document.querySelector(
+          '[data-panel="left"] [data-action="set-original"]',
+        ),
       },
       right: {
         codec: document.getElementById("right-codec"),
         bitrate: document.getElementById("right-bitrate"),
         index: document.getElementById("right-index"),
         setOriginalButton: document.querySelector(
-          '[data-panel="right"] [data-action="set-original"]'
+          '[data-panel="right"] [data-action="set-original"]',
         ),
       },
     },
@@ -58,7 +60,12 @@ export function setStatus(dom, message, isError = false) {
   dom.statusMessage.classList.toggle("is-error", isError);
 }
 
-export function setSelectOptions(selectElement, values, selectedValue, labelFormatter = String) {
+export function setSelectOptions(
+  selectElement,
+  values,
+  selectedValue,
+  labelFormatter = String,
+) {
   const optionsMarkup = values
     .map((value) => {
       const selected = value === selectedValue ? " selected" : "";
@@ -97,11 +104,13 @@ export function updateSplitPosition(dom, value) {
 export function setOverlayTopHidden(dom, hidden) {
   dom.overlay.topImage.classList.toggle("is-layer-hidden", hidden);
   dom.overlay.stage.setAttribute("aria-pressed", String(hidden));
-  dom.overlay.cornerBadge.classList.toggle("is-image-a", hidden);
-  dom.overlay.cornerBadge.classList.toggle("is-image-b", !hidden);
-  dom.overlay.cornerBadge.textContent = hidden ? "Image A visible" : "Image B visible";
+  dom.overlay.cornerBadge.classList.toggle("is-image-a", !hidden);
+  dom.overlay.cornerBadge.classList.toggle("is-image-b", hidden);
+  dom.overlay.cornerBadge.textContent = hidden
+    ? "Image B visible"
+    : "Image A visible";
 
   dom.overlay.visibleState.textContent = hidden
-    ? "Vue actuelle: Image A visible (Image B masquee)."
-    : "Vue actuelle: Image B visible (Image A en dessous).";
+    ? "Vue actuelle: Image B visible (Image A masquee)."
+    : "Vue actuelle: Image A visible (Image B en dessous).";
 }

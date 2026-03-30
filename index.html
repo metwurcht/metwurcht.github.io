@@ -25,15 +25,19 @@
         <p class="kicker">Comparaison image par image</p>
         <h1>Comparateur Deepsea</h1>
         <p class="lead">
-          Selectionne deux images, ajuste codec, debit et index, puis compare en vue
-          superposee ou en split.
+          Selectionne deux images, ajuste codec, debit et index, puis compare en
+          vue superposee ou en split.
         </p>
       </header>
 
       <section class="card toolbar" aria-label="Options globales">
         <div class="toolbar-left">
           <div class="button-group" role="group" aria-label="Mode de vue">
-            <button class="mode-button is-active" data-view-mode="overlay" type="button">
+            <button
+              class="mode-button is-active"
+              data-view-mode="overlay"
+              type="button"
+            >
               Superpose
             </button>
             <button class="mode-button" data-view-mode="split" type="button">
@@ -59,7 +63,11 @@
         <article class="card panel-controls" data-panel="left">
           <div class="panel-header">
             <h2>Image A</h2>
-            <button class="button-ghost" data-action="set-original" type="button">
+            <button
+              class="button-ghost"
+              data-action="set-original"
+              type="button"
+            >
               Mettre ORIGINAL
             </button>
           </div>
@@ -79,7 +87,11 @@
         <article class="card panel-controls" data-panel="right">
           <div class="panel-header">
             <h2>Image B</h2>
-            <button class="button-ghost" data-action="set-original" type="button">
+            <button
+              class="button-ghost"
+              data-action="set-original"
+              type="button"
+            >
               Mettre ORIGINAL
             </button>
           </div>
@@ -109,10 +121,10 @@
           >
             <span
               id="overlay-corner-badge"
-              class="corner-badge corner-badge-left is-image-b"
+              class="corner-badge corner-badge-left is-image-a"
               aria-live="polite"
             >
-              Image B visible
+              Image A visible
             </span>
             <img
               id="overlay-base-image"
@@ -136,26 +148,31 @@
             Clique sur l'image pour masquer ou afficher l'image du dessus.
           </p>
 
-          <p id="overlay-visible-state" class="view-state" aria-live="polite"></p>
+          <p
+            id="overlay-visible-state"
+            class="view-state"
+            aria-live="polite"
+          ></p>
 
           <p class="legend-row">
             <span id="overlay-base-label"></span>
             <span id="overlay-top-label"></span>
           </p>
-
-          <p class="file-row">
-            <span id="overlay-base-file" class="filename"></span>
-            <span id="overlay-top-file" class="filename"></span>
-          </p>
         </div>
 
         <div id="split-view" class="card comparison-view split-view is-hidden">
           <div id="split-stage" class="split-stage">
-            <span id="split-left-badge" class="corner-badge corner-badge-left is-image-b">
-              Image B
-            </span>
-            <span id="split-right-badge" class="corner-badge corner-badge-right is-image-a">
+            <span
+              id="split-left-badge"
+              class="corner-badge corner-badge-left is-image-a"
+            >
               Image A
+            </span>
+            <span
+              id="split-right-badge"
+              class="corner-badge corner-badge-right is-image-b"
+            >
+              Image B
             </span>
             <img
               id="split-base-image"
@@ -176,18 +193,15 @@
             <div id="split-divider" class="split-divider"></div>
           </div>
 
-          <p class="interaction-hint">Glisse directement sur l'image pour deplacer la separation.</p>
+          <p class="interaction-hint">
+            Glisse directement sur l'image pour deplacer la separation.
+          </p>
 
           <p id="split-visible-state" class="view-state"></p>
 
           <p class="legend-row">
             <span id="split-left-label"></span>
             <span id="split-right-label"></span>
-          </p>
-
-          <p class="file-row">
-            <span id="split-left-file" class="filename"></span>
-            <span id="split-right-file" class="filename"></span>
           </p>
         </div>
       </section>

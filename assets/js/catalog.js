@@ -1,4 +1,5 @@
-const FILE_PATTERN = /^deepsea-(AV1|x265|ORIGINAL)-([0-9]+kbps|source)-([1-8])\.png$/;
+const FILE_PATTERN =
+  /^deepsea-(AV1|x265|ORIGINAL)-([0-9]+kbps|source)-([1-8])\.png$/;
 const CODEC_ORDER = ["ORIGINAL", "AV1", "x265"];
 
 function codecWeight(codec) {
@@ -36,7 +37,9 @@ function extractFilenamesFromTree(treeText) {
 
   for (const rawLine of lines) {
     const line = rawLine.trim();
-    const match = line.match(/(deepsea-(?:AV1|x265|ORIGINAL)-(?:[0-9]+kbps|source)-[1-8]\.png)$/);
+    const match = line.match(
+      /(deepsea-(?:AV1|x265|ORIGINAL)-(?:[0-9]+kbps|source)-[1-8]\.png)$/,
+    );
     if (match) {
       filenames.push(match[1]);
     }
@@ -51,7 +54,9 @@ export async function loadCatalog(treeFilePath = "tree.txt") {
   });
 
   if (!response.ok) {
-    throw new Error(`Impossible de charger ${treeFilePath} (${response.status}).`);
+    throw new Error(
+      `Impossible de charger ${treeFilePath} (${response.status}).`,
+    );
   }
 
   const treeText = await response.text();
@@ -91,13 +96,15 @@ export function buildCatalog(filenames) {
     indexesByCodecBitrate.get(pairKey).add(entry.index);
   }
 
-  const codecs = [...bitratesByCodec.keys()].sort((a, b) => codecWeight(a) - codecWeight(b));
+  const codecs = [...bitratesByCodec.keys()].sort(
+    (a, b) => codecWeight(a) - codecWeight(b),
+  );
 
   const preparedBitratesByCodec = new Map();
   for (const [codec, bitrateSet] of bitratesByCodec.entries()) {
     preparedBitratesByCodec.set(
       codec,
-      [...bitrateSet].sort((a, b) => bitrateWeight(a) - bitrateWeight(b))
+      [...bitrateSet].sort((a, b) => bitrateWeight(a) - bitrateWeight(b)),
     );
   }
 
@@ -105,7 +112,7 @@ export function buildCatalog(filenames) {
   for (const [pairKey, indexSet] of indexesByCodecBitrate.entries()) {
     preparedIndexesByPair.set(
       pairKey,
-      [...indexSet].sort((a, b) => a - b)
+      [...indexSet].sort((a, b) => a - b),
     );
   }
 

@@ -54,7 +54,9 @@ function pickPreferredBitrate(codec, preferredValue) {
 }
 
 function createInitialState() {
-  const leftCodec = catalog.hasCodec("ORIGINAL") ? "ORIGINAL" : catalog.codecs[0];
+  const leftCodec = catalog.hasCodec("ORIGINAL")
+    ? "ORIGINAL"
+    : catalog.codecs[0];
   const rightCodec = catalog.hasCodec("AV1")
     ? "AV1"
     : catalog.hasCodec("x265")
@@ -126,13 +128,25 @@ function refreshPanelControls(panelName) {
   const panelDom = dom.panels[panelName];
   const panelState = state[panelName];
 
-  setSelectOptions(panelDom.codec, catalog.codecs, panelState.codec, (value) => value);
+  setSelectOptions(
+    panelDom.codec,
+    catalog.codecs,
+    panelState.codec,
+    (value) => value,
+  );
 
   const bitrates = catalog.getBitrates(panelState.codec);
-  setSelectOptions(panelDom.bitrate, bitrates, panelState.bitrate, formatBitrateLabel);
+  setSelectOptions(
+    panelDom.bitrate,
+    bitrates,
+    panelState.bitrate,
+    formatBitrateLabel,
+  );
 
   const indexes = catalog.getIndexes(panelState.codec, panelState.bitrate);
-  setSelectOptions(panelDom.index, indexes, panelState.index, (value) => String(value));
+  setSelectOptions(panelDom.index, indexes, panelState.index, (value) =>
+    String(value),
+  );
 }
 
 function render() {
@@ -153,7 +167,7 @@ function render() {
 
   setStatus(
     dom,
-    `${catalog.total} images chargees | A: ${formatSelectionLabel(state.left)} | B: ${formatSelectionLabel(state.right)}`
+    `${catalog.total} images chargees | A: ${formatSelectionLabel(state.left)} | B: ${formatSelectionLabel(state.right)}`,
   );
 }
 
@@ -307,7 +321,9 @@ function wireGlobalEvents() {
 }
 
 function disableInputs() {
-  const interactiveElements = document.querySelectorAll("button, select, input");
+  const interactiveElements = document.querySelectorAll(
+    "button, select, input",
+  );
   for (const element of interactiveElements) {
     element.disabled = true;
   }
@@ -328,9 +344,15 @@ async function bootstrap() {
     render();
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "Erreur inconnue lors du chargement du catalogue.";
+      error instanceof Error
+        ? error.message
+        : "Erreur inconnue lors du chargement du catalogue.";
 
-    setStatus(dom, `${message} Lance un serveur local pour autoriser fetch(tree.txt).`, true);
+    setStatus(
+      dom,
+      `${message} Lance un serveur local pour autoriser fetch(tree.txt).`,
+      true,
+    );
     disableInputs();
   }
 }
